@@ -11,12 +11,22 @@
   <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
   <link rel="stylesheet" href="styles.css" />
+  <script>
+    // Apply the stored theme before first paint to avoid a flash.
+    try {
+      var storedTheme = localStorage.getItem("momento.theme.v1");
+      if (storedTheme === "light" || storedTheme === "dark") document.documentElement.dataset.theme = storedTheme;
+    } catch (error) { /* storage unavailable: follow the system theme */ }
+  </script>
 </head>
 <body>
   <main class="page">
     <!-- Main view: deliberately empty, shows only the current moment -->
     <section id="main-view" aria-label="Atividade atual">
-      <p id="clock" class="clock" aria-label="Hora atual">--:--:--</p>
+      <header class="topbar">
+        <p id="clock" class="clock" aria-label="Hora atual">--:--:--</p>
+        <button class="theme-toggle" type="button" aria-label="Alternar para modo escuro">☾</button>
+      </header>
 
       <div id="current-block" class="current-block" aria-live="polite"></div>
 
@@ -32,6 +42,7 @@
       <header class="manage-header">
         <button id="go-main" class="link-button" type="button">← Voltar</button>
         <h1 class="manage-title">Rotina</h1>
+        <button class="theme-toggle" type="button" aria-label="Alternar para modo escuro">☾</button>
       </header>
 
       <ul id="routine-list" class="routine-list"></ul>

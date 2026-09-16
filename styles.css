@@ -11,9 +11,22 @@
   color-scheme: light dark;
 }
 
-/* Deep dry night sky: dark, silent and wide, not plain black. */
+/* Deep dry night sky: dark, silent and wide, not plain black.
+   A stored manual choice (data-theme) always wins over the system. */
+:root[data-theme="dark"] {
+  --bg: #0d1321;
+  --surface: #141c2e;
+  --fg: #e9e2d0;
+  --muted: #a3a8bd;
+  --faint: #6d7390;
+  --line: #232c44;
+  --accent: #e9e2d0;
+  --error: #e29598;
+}
+
+/* No stored choice: follow the operating system. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme]) {
     --bg: #0d1321;
     --surface: #141c2e;
     --fg: #e9e2d0;
@@ -51,12 +64,37 @@ body {
 
 /* Main view */
 
-.clock {
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
   margin: 0 0 3rem;
+}
+
+.clock {
+  margin: 0;
   font-size: 0.95rem;
   font-variant-numeric: tabular-nums;
   color: var(--muted);
   letter-spacing: 0.04em;
+}
+
+/* Discreet theme switch: visible without competing with the activity. */
+.theme-toggle {
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  color: var(--faint);
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0.4rem 0.55rem;
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  color: var(--fg);
+  border-color: var(--line);
 }
 
 .current-block {
@@ -144,6 +182,10 @@ body {
 
 .manage-header .link-button {
   padding-left: 0;
+}
+
+.manage-header .theme-toggle {
+  margin-left: auto;
 }
 
 .manage-title {

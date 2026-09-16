@@ -1,11 +1,28 @@
 :root {
-  --bg: #fafafa;
-  --fg: #1a1a1a;
-  --muted: #6b6b6b;
-  --faint: #9a9a9a;
-  --line: #e6e6e6;
-  --accent: #1a1a1a;
-  color-scheme: light;
+  --bg: #f6f1e7;
+  --surface: #fffdf8;
+  --fg: #2b2620;
+  --muted: #6f6656;
+  --faint: #a2987f;
+  --line: #e2d7c2;
+  --accent: #2b2620;
+  --error: #9c2b2e;
+  --serif: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Times New Roman", serif;
+  color-scheme: light dark;
+}
+
+/* Deep dry night sky: dark, silent and wide, not plain black. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1321;
+    --surface: #141c2e;
+    --fg: #e9e2d0;
+    --muted: #a3a8bd;
+    --faint: #6d7390;
+    --line: #232c44;
+    --accent: #e9e2d0;
+    --error: #e29598;
+  }
 }
 
 * { box-sizing: border-box; }
@@ -55,23 +72,28 @@ body {
 
 .current-name {
   margin: 0;
-  font-size: 1.9rem;
-  line-height: 1.2;
-  font-weight: 650;
+  font-family: var(--serif);
+  font-size: 2rem;
+  line-height: 1.25;
+  font-weight: 500;
+  letter-spacing: 0.01em;
   text-wrap: balance;
 }
 
 .current-description {
-  margin: 0.75rem 0 0;
+  margin: 0.9rem 0 0;
   color: var(--muted);
-  font-size: 1rem;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-style: italic;
   text-wrap: pretty;
 }
 
 .empty-note {
   margin: 0;
-  font-size: 1.4rem;
-  font-weight: 550;
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 500;
 }
 
 .empty-hint {
@@ -126,8 +148,9 @@ body {
 
 .manage-title {
   margin: 0;
-  font-size: 1.25rem;
-  font-weight: 650;
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 500;
 }
 
 .routine-list {
@@ -198,8 +221,9 @@ body {
 
 .form-title {
   margin: 0 0 1rem;
-  font-size: 1rem;
-  font-weight: 650;
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-weight: 500;
 }
 
 .form-row {
@@ -222,7 +246,7 @@ body {
   padding: 0.6rem 0.7rem;
   font-size: 1rem;
   color: var(--fg);
-  background: #fff;
+  background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 8px;
 }
@@ -233,7 +257,7 @@ body {
 }
 
 .form-error {
-  color: #a4262c;
+  color: var(--error);
   font-size: 0.9rem;
   margin: 0 0 0.75rem;
 }
@@ -246,7 +270,7 @@ body {
 
 .primary-button {
   background: var(--accent);
-  color: #fff;
+  color: var(--bg);
   border: none;
   border-radius: 8px;
   padding: 0.65rem 1.4rem;

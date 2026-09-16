@@ -1,4 +1,5 @@
 import {
+  ROUTINE_STORAGE_KEY,
   createActivity,
   loadActivities,
   saveActivities,
@@ -104,7 +105,7 @@ export function startManageView() {
   cancelButton.addEventListener("click", resetForm);
   document.getElementById("go-manage").addEventListener("click", refresh);
   window.addEventListener("storage", (event) => {
-    if (event.key === null || event.key === "momento.routine.v1") refresh();
+    if (event.key === null || event.key === ROUTINE_STORAGE_KEY) refresh();
   });
 
   refresh();

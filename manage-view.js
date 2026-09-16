@@ -102,7 +102,21 @@ export function startManageView() {
     refresh();
   });
 
+  // Tapping a time field opens the platform clock picker (mobile-friendly).
+  function openNativePicker(event) {
+    const input = event.currentTarget;
+    if (input && typeof input.showPicker === "function") {
+      try {
+        input.showPicker();
+      } catch (error) {
+        console.warn("Could not open native time picker:", error);
+      }
+    }
+  }
+
   cancelButton.addEventListener("click", resetForm);
+  startField.addEventListener("click", openNativePicker);
+  endField.addEventListener("click", openNativePicker);
   document.getElementById("go-manage").addEventListener("click", refresh);
   window.addEventListener("storage", (event) => {
     if (event.key === null || event.key === ROUTINE_STORAGE_KEY) refresh();

@@ -18,7 +18,8 @@ Open the app → see the current activity → close the app.
 - Routine management: add, edit, delete and list activities in chronological order.
 - Native clock picker when tapping a time field (mobile-friendly).
 - Import from Markdown/TXT and JSON export/import (manage area only).
-- Contemplative light and dark themes following the system preference.
+- Contemplative light and dark themes with a manual toggle (☾/☀), persisted locally.
+  Without a stored choice, the system preference applies.
 - Local persistence with `localStorage` — no backend, no account.
 - Mobile-first, works on desktop.
 - Installable PWA (manifest + service worker, offline cache).
@@ -91,6 +92,7 @@ The file carries only `start`, `end`, `name` and `description` — no internal i
 index.html          # main screen + routine management screen
 styles.css          # mobile-first styling, light/dark themes
 routine.js          # activity model, localStorage persistence, time matching
+theme.js            # light/dark resolution, manual toggle, preference storage
 transfer.js         # Markdown/TXT import, JSON export/import
 main-view.js        # renders current/next activity + live clock
 manage-view.js      # routine list + add/edit/delete form + transfer wiring

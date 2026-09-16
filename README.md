@@ -14,11 +14,11 @@ Open the app → see the current activity → close the app.
 
 ## Features
 
-- Minimalist main screen (current activity + discreet next activity + live clock).
+- Minimalist main screen: large live clock anchoring a vertically centered moment, discreet next activity.
 - Routine management: add, edit, delete and list activities in chronological order.
 - Native clock picker when tapping a time field (mobile-friendly).
 - Import from Markdown/TXT and JSON export/import (manage area only).
-- Contemplative light and dark themes with a manual toggle (☾/☀), persisted locally.
+- Warm paper light theme and silent-night dark theme, manual toggle (☾/☀) persisted locally.
   Without a stored choice, the system preference applies.
 - Local persistence with `localStorage` — no backend, no account.
 - Mobile-first, works on desktop.

@@ -40,6 +40,10 @@
 
 * { box-sizing: border-box; }
 
+/* View switching relies on the hidden attribute; author display rules
+   (e.g. #main-view flex) must never override it. */
+[hidden] { display: none !important; }
+
 html, body {
   margin: 0;
   padding: 0;

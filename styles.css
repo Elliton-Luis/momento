@@ -288,6 +288,37 @@ body {
   cursor: pointer;
 }
 
+/* Transfer (import/export lives only in the manage area) */
+
+.transfer {
+  border-top: 1px solid var(--line);
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+}
+
+.transfer-hint {
+  margin: 0 0 1rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.transfer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.transfer-message {
+  margin: 1rem 0 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+  white-space: pre-line;
+}
+
+.transfer-message.error {
+  color: var(--error);
+}
+
 @media (min-width: 40rem) {
   .page { padding-top: 4rem; }
   .current-name { font-size: 2.2rem; }

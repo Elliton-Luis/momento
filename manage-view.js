@@ -6,6 +6,7 @@ import {
   sortActivities,
   validateActivity,
 } from "./routine.js";
+import { parseRoutineText } from "./transfer.js";
 
 // Routine administration: chronological list plus add/edit/delete form.
 export function startManageView() {
@@ -18,6 +19,9 @@ export function startManageView() {
   const descriptionField = document.getElementById("field-description");
   const errorEl = document.getElementById("form-error");
   const cancelButton = document.getElementById("form-cancel");
+  const importTextButton = document.getElementById("import-text");
+  const importFileInput = document.getElementById("import-file");
+  const transferMessage = document.getElementById("transfer-message");
 
   let editingId = null;
 
@@ -65,6 +69,51 @@ export function startManageView() {
   function hideError() {
     errorEl.textContent = "";
     errorEl.hidden = true;
+  }
+
+  function showTransferMessage(text, isError) {
+    transferMessage.textContent = text;
+    transferMessage.classList.toggle("error", Boolean(isError));
+    transferMessage.hidden = false;
+  }
+
+  async function importTextFile(file) {
+    let text;
+    try {
+      text = await file.text();
+    } catch (error) {
+      showTransferMessage(`Não foi possível ler ${file.name}: ${error.message}`, true);
+      return;
+    }
+    const { activities, skipped } = parseRoutineText(text);
+    if (activities.length === 0) {
+      const detail = skipped.length
+        ? ` Linhas não reconhecidas: ${skipped.slice(0, 3).map((skip) => `L${skip.line} (${skip.reason})`).join("; ")}.`
+        : " Verifique o formato documentado no README.";
+      showTransferMessage(`Nenhuma atividade reconhecida em ${file.name}.${detail}`, true);
+      return;
+    }
+    let question = `Substituir a rotina atual por ${activities.length} atividades de ${file.name}?`;
+    if (skipped.length > 0) {
+      question += `\n${skipped.length} linha(s) serão ignoradas:\n${skipped
+        .slice(0, 5)
+        .map((skip) => `Linha ${skip.line}: ${skip.reason}`)
+        .join("\n")}`;
+    }
+    if (!window.confirm(question)) {
+      showTransferMessage("Importação cancelada. A rotina atual foi mantida.", false);
+      return;
+    }
+    try {
+      saveActivities(activities.map((draft) => createActivity(draft)));
+    } catch (error) {
+      showTransferMessage(`Não foi possível salvar a rotina importada: ${error.message}`, true);
+      return;
+    }
+    resetForm();
+    refresh();
+    const suffix = skipped.length > 0 ? ` (${skipped.length} linha(s) ignoradas).` : ".";
+    showTransferMessage(`${activities.length} atividades importadas${suffix}`, false);
   }
 
   form.addEventListener("submit", (event) => {
@@ -117,6 +166,12 @@ export function startManageView() {
   cancelButton.addEventListener("click", resetForm);
   startField.addEventListener("click", openNativePicker);
   endField.addEventListener("click", openNativePicker);
+  importTextButton.addEventListener("click", () => importFileInput.click());
+  importFileInput.addEventListener("change", () => {
+    const file = importFileInput.files[0];
+    importFileInput.value = "";
+    if (file) void importTextFile(file);
+  });
   document.getElementById("go-manage").addEventListener("click", refresh);
   window.addEventListener("storage", (event) => {
     if (event.key === null || event.key === ROUTINE_STORAGE_KEY) refresh();

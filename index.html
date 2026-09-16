@@ -62,6 +62,16 @@
           <button class="primary-button" type="submit">Salvar</button>
         </div>
       </form>
+
+      <section class="transfer" aria-label="Importar rotina">
+        <h2 class="form-title">Importar rotina</h2>
+        <p class="transfer-hint">A partir de um arquivo Markdown ou TXT, como o exemplo documentado no README.</p>
+        <div class="transfer-actions">
+          <button id="import-text" class="ghost-button" type="button">Importar Markdown/TXT</button>
+        </div>
+        <input id="import-file" type="file" accept=".md,.markdown,.txt,text/plain" hidden />
+        <p id="transfer-message" class="transfer-message" role="status" hidden></p>
+      </section>
     </section>
   </main>
 

@@ -1,5 +1,5 @@
 // Minimal offline cache: app shell only, no complexity.
-const CACHE = "momento-v3";
+const CACHE = "momento-v4";
 const SHELL = [
   "./",
   "./index.html",

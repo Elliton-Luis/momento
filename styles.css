@@ -1,40 +1,40 @@
 :root {
-  --bg: #f6f1e7;
-  --surface: #fffdf8;
-  --fg: #2b2620;
-  --muted: #6f6656;
-  --faint: #a2987f;
-  --line: #e2d7c2;
-  --accent: #2b2620;
-  --error: #9c2b2e;
+  --bg: #f3ead9;
+  --surface: #faf4e8;
+  --fg: #5f4c3a;
+  --muted: #8d7a63;
+  --faint: #b7a88f;
+  --line: #e0d3ba;
+  --accent: #5f4c3a;
+  --error: #96423a;
   --serif: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Times New Roman", serif;
   color-scheme: light dark;
 }
 
-/* Deep dry night sky: dark, silent and wide, not plain black.
+/* Silent dry night: deep but never absolute black, letters faintly warm.
    A stored manual choice (data-theme) always wins over the system. */
 :root[data-theme="dark"] {
-  --bg: #0d1321;
-  --surface: #141c2e;
-  --fg: #e9e2d0;
-  --muted: #a3a8bd;
-  --faint: #6d7390;
-  --line: #232c44;
-  --accent: #e9e2d0;
-  --error: #e29598;
+  --bg: #0b1120;
+  --surface: #121a2d;
+  --fg: #ecdfc0;
+  --muted: #a49a83;
+  --faint: #6f6a5c;
+  --line: #222b41;
+  --accent: #ecdfc0;
+  --error: #df9a90;
 }
 
 /* No stored choice: follow the operating system. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
-    --bg: #0d1321;
-    --surface: #141c2e;
-    --fg: #e9e2d0;
-    --muted: #a3a8bd;
-    --faint: #6d7390;
-    --line: #232c44;
-    --accent: #e9e2d0;
-    --error: #e29598;
+    --bg: #0b1120;
+    --surface: #121a2d;
+    --fg: #ecdfc0;
+    --muted: #a49a83;
+    --faint: #6f6a5c;
+    --line: #222b41;
+    --accent: #ecdfc0;
+    --error: #df9a90;
   }
 }
 
@@ -62,22 +62,38 @@ body {
   flex-direction: column;
 }
 
-/* Main view */
+/* Main view: top toggle, centered moment, bottom action.
+   Pure flexbox, no absolute positioning: short screens scroll, tall ones breathe. */
 
-.topbar {
+#main-view {
+  flex: 1;
   display: flex;
+  flex-direction: column;
+}
+
+.main-top {
+  display: flex;
+  justify-content: flex-end;
+  min-height: 2.25rem;
+}
+
+.main-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin: 0 0 3rem;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem 0;
 }
 
 .clock {
-  margin: 0;
-  font-size: 0.95rem;
+  margin: 0 0 2.5rem;
+  font-size: clamp(2.75rem, 13vw, 4rem);
+  font-weight: 300;
   font-variant-numeric: tabular-nums;
-  color: var(--muted);
-  letter-spacing: 0.04em;
+  color: var(--fg);
+  letter-spacing: 0.06em;
 }
 
 /* Discreet theme switch: visible without competing with the activity. */
@@ -98,14 +114,16 @@ body {
 }
 
 .current-block {
-  margin-bottom: 3rem;
+  margin: 0 0 2rem;
+  max-width: 26rem;
 }
 
 .current-time {
-  margin: 0 0 0.5rem;
+  margin: 0 0 0.75rem;
   font-size: 0.95rem;
   color: var(--muted);
   font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
 }
 
 .current-name {
@@ -153,8 +171,7 @@ body {
 }
 
 .actions {
-  margin-top: auto;
-  padding-top: 4rem;
+  padding: 1rem 0 0.5rem;
   text-align: center;
 }
 

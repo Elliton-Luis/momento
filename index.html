@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="description" content="Visualizador minimalista da rotina atual. Abra, veja o que deveria estar fazendo, feche." />
-  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f6f1e7" />
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0d1321" />
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f3ead9" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b1120" />
   <title>Momento — o que eu deveria estar fazendo agora?</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
@@ -23,14 +23,17 @@
   <main class="page">
     <!-- Main view: deliberately empty, shows only the current moment -->
     <section id="main-view" aria-label="Atividade atual">
-      <header class="topbar">
-        <p id="clock" class="clock" aria-label="Hora atual">--:--:--</p>
+      <div class="main-top">
         <button class="theme-toggle" type="button" aria-label="Alternar para modo escuro">☾</button>
-      </header>
+      </div>
 
-      <div id="current-block" class="current-block" aria-live="polite"></div>
+      <div class="main-center">
+        <p id="clock" class="clock" aria-label="Hora atual">--:--:--</p>
 
-      <div id="next-block" class="next-block" aria-live="polite"></div>
+        <div id="current-block" class="current-block" aria-live="polite"></div>
+
+        <div id="next-block" class="next-block" aria-live="polite"></div>
+      </div>
 
       <nav class="actions">
         <button id="go-manage" class="link-button" type="button">Cadastrar rotina</button>

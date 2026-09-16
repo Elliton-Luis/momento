@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Visualizador minimalista da rotina atual. Abra, veja o que deveria estar fazendo, feche." />
+  <meta name="theme-color" content="#fafafa" />
+  <title>Momento — o que eu deveria estar fazendo agora?</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="page">
+    <!-- Main view: deliberately empty, shows only the current moment -->
+    <section id="main-view" aria-label="Atividade atual">
+      <p id="clock" class="clock" aria-label="Hora atual">--:--:--</p>
+
+      <div id="current-block" class="current-block" aria-live="polite"></div>
+
+      <div id="next-block" class="next-block" aria-live="polite"></div>
+
+      <nav class="actions">
+        <button id="go-manage" class="link-button" type="button">Cadastrar rotina</button>
+      </nav>
+    </section>
+
+    <!-- Manage view: simple administration of the full routine -->
+    <section id="manage-view" aria-label="Gerenciar rotina" hidden>
+      <header class="manage-header">
+        <button id="go-main" class="link-button" type="button">← Voltar</button>
+        <h1 class="manage-title">Rotina</h1>
+      </header>
+
+      <ul id="routine-list" class="routine-list"></ul>
+
+      <form id="activity-form" class="activity-form" novalidate>
+        <h2 id="form-title" class="form-title">Nova atividade</h2>
+        <div class="form-row">
+          <label class="field">
+            <span>Início</span>
+            <input id="field-start" type="time" required />
+          </label>
+          <label class="field">
+            <span>Fim</span>
+            <input id="field-end" type="time" required />
+          </label>
+        </div>
+        <label class="field">
+          <span>Nome</span>
+          <input id="field-name" type="text" maxlength="80" placeholder="Ex.: Estudo profundo" required />
+        </label>
+        <label class="field">
+          <span>Descrição (opcional)</span>
+          <input id="field-description" type="text" maxlength="200" placeholder="Detalhe curto, se precisar" />
+        </label>
+        <p id="form-error" class="form-error" role="alert" hidden></p>
+        <div class="form-actions">
+          <button id="form-cancel" class="ghost-button" type="button" hidden>Cancelar</button>
+          <button class="primary-button" type="submit">Salvar</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

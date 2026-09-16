@@ -1,0 +1,270 @@
+:root {
+  --bg: #fafafa;
+  --fg: #1a1a1a;
+  --muted: #6b6b6b;
+  --faint: #9a9a9a;
+  --line: #e6e6e6;
+  --accent: #1a1a1a;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  max-width: 36rem;
+  margin: 0 auto;
+  padding: 3rem 1.25rem 4rem;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main view */
+
+.clock {
+  margin: 0 0 3rem;
+  font-size: 0.95rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+
+.current-block {
+  margin-bottom: 3rem;
+}
+
+.current-time {
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.current-name {
+  margin: 0;
+  font-size: 1.9rem;
+  line-height: 1.2;
+  font-weight: 650;
+  text-wrap: balance;
+}
+
+.current-description {
+  margin: 0.75rem 0 0;
+  color: var(--muted);
+  font-size: 1rem;
+  text-wrap: pretty;
+}
+
+.empty-note {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 550;
+}
+
+.empty-hint {
+  margin: 0.5rem 0 0;
+  color: var(--muted);
+}
+
+.next-block {
+  color: var(--faint);
+  font-size: 0.9rem;
+}
+
+.next-block p {
+  margin: 0.15rem 0;
+}
+
+.next-block .next-time {
+  font-variant-numeric: tabular-nums;
+}
+
+.actions {
+  margin-top: auto;
+  padding-top: 4rem;
+  text-align: center;
+}
+
+.link-button {
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  color: var(--faint);
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.link-button:hover { color: var(--muted); }
+
+/* Manage view */
+
+.manage-header {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.manage-header .link-button {
+  padding-left: 0;
+}
+
+.manage-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 650;
+}
+
+.routine-list {
+  list-style: none;
+  margin: 0 0 2.5rem;
+  padding: 0;
+}
+
+.routine-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.routine-item-info { flex: 1; min-width: 0; }
+
+.routine-item-time {
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.routine-item-name {
+  margin: 0.1rem 0 0;
+  font-weight: 600;
+}
+
+.routine-item-desc {
+  margin: 0.1rem 0 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.routine-item-buttons {
+  display: flex;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.small-button {
+  background: none;
+  border: 1px solid transparent;
+  color: var(--muted);
+  font-size: 0.85rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.small-button:hover {
+  border-color: var(--line);
+  color: var(--fg);
+}
+
+.empty-list {
+  color: var(--muted);
+  padding: 1rem 0;
+}
+
+/* Form */
+
+.activity-form {
+  border-top: 1px solid var(--line);
+  padding-top: 1.5rem;
+}
+
+.form-title {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  font-weight: 650;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.field {
+  display: block;
+  margin-bottom: 0.9rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.field input {
+  display: block;
+  width: 100%;
+  margin-top: 0.3rem;
+  padding: 0.6rem 0.7rem;
+  font-size: 1rem;
+  color: var(--fg);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.field input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.form-error {
+  color: #a4262c;
+  font-size: 0.9rem;
+  margin: 0 0 0.75rem;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.primary-button {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.65rem 1.4rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.ghost-button {
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.65rem 1rem;
+  font-size: 0.95rem;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+@media (min-width: 40rem) {
+  .page { padding-top: 4rem; }
+  .current-name { font-size: 2.2rem; }
+}

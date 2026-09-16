@@ -6,7 +6,7 @@ import {
   sortActivities,
   validateActivity,
 } from "./routine.js";
-import { parseRoutineText } from "./transfer.js";
+import { parseRoutineJson, parseRoutineText, serializeRoutineJson } from "./transfer.js";
 
 // Routine administration: chronological list plus add/edit/delete form.
 export function startManageView() {
@@ -20,8 +20,13 @@ export function startManageView() {
   const errorEl = document.getElementById("form-error");
   const cancelButton = document.getElementById("form-cancel");
   const importTextButton = document.getElementById("import-text");
+  const importJsonButton = document.getElementById("import-json");
+  const exportJsonButton = document.getElementById("export-json");
   const importFileInput = document.getElementById("import-file");
   const transferMessage = document.getElementById("transfer-message");
+
+  // "text" for Markdown/TXT, "json" for previously exported JSON.
+  let pendingImportKind = "text";
 
   let editingId = null;
 
@@ -77,6 +82,37 @@ export function startManageView() {
     transferMessage.hidden = false;
   }
 
+  function importJsonFile(file, text) {
+    const { activities, errors } = parseRoutineJson(text);
+    if (activities.length === 0 || errors.length > 0) {
+      const detail = errors
+        .slice(0, 3)
+        .map((entry) => (entry.index === null ? entry.message : `Item ${entry.index}: ${entry.message}`))
+        .join("; ");
+      showTransferMessage(`JSON não importado (${file.name}): ${detail} A rotina atual foi mantida.`, true);
+      return;
+    }
+    if (!window.confirm(`Substituir a rotina atual por ${activities.length} atividades de ${file.name}?`)) {
+      showTransferMessage("Importação cancelada. A rotina atual foi mantida.", false);
+      return;
+    }
+    replaceRoutine(activities, `${activities.length} atividades importadas.`);
+  }
+
+  // Save validated drafts as the new routine and refresh. Drafts carry no
+  // ids; createActivity assigns fresh ones and normalizes whitespace.
+  function replaceRoutine(drafts, successText) {
+    try {
+      saveActivities(drafts.map((draft) => createActivity(draft)));
+    } catch (error) {
+      showTransferMessage(`Não foi possível salvar a rotina importada: ${error.message}`, true);
+      return;
+    }
+    resetForm();
+    refresh();
+    showTransferMessage(successText, false);
+  }
+
   async function importTextFile(file) {
     let text;
     try {
@@ -104,16 +140,8 @@ export function startManageView() {
       showTransferMessage("Importação cancelada. A rotina atual foi mantida.", false);
       return;
     }
-    try {
-      saveActivities(activities.map((draft) => createActivity(draft)));
-    } catch (error) {
-      showTransferMessage(`Não foi possível salvar a rotina importada: ${error.message}`, true);
-      return;
-    }
-    resetForm();
-    refresh();
     const suffix = skipped.length > 0 ? ` (${skipped.length} linha(s) ignoradas).` : ".";
-    showTransferMessage(`${activities.length} atividades importadas${suffix}`, false);
+    replaceRoutine(activities, `${activities.length} atividades importadas${suffix}`);
   }
 
   form.addEventListener("submit", (event) => {
@@ -163,14 +191,59 @@ export function startManageView() {
     }
   }
 
+  function exportJsonFile() {
+    let payload;
+    try {
+      payload = serializeRoutineJson(loadActivities());
+    } catch (error) {
+      showTransferMessage(`Não foi possível exportar: ${error.message}`, true);
+      return;
+    }
+    try {
+      downloadFile("momento-rotina.json", payload, "application/json");
+    } catch (error) {
+      showTransferMessage(`Não foi possível baixar o arquivo: ${error.message}`, true);
+      return;
+    }
+    showTransferMessage("Rotina exportada como momento-rotina.json.", false);
+  }
+
+  function downloadFile(filename, content, mimeType) {
+    const blob = new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+  }
+
   cancelButton.addEventListener("click", resetForm);
   startField.addEventListener("click", openNativePicker);
   endField.addEventListener("click", openNativePicker);
-  importTextButton.addEventListener("click", () => importFileInput.click());
+  importTextButton.addEventListener("click", () => {
+    pendingImportKind = "text";
+    importFileInput.click();
+  });
+  importJsonButton.addEventListener("click", () => {
+    pendingImportKind = "json";
+    importFileInput.click();
+  });
+  exportJsonButton.addEventListener("click", exportJsonFile);
   importFileInput.addEventListener("change", () => {
     const file = importFileInput.files[0];
     importFileInput.value = "";
-    if (file) void importTextFile(file);
+    if (!file) return;
+    if (pendingImportKind === "json") {
+      file
+        .text()
+        .then((text) => importJsonFile(file, text))
+        .catch((error) => showTransferMessage(`Não foi possível ler ${file.name}: ${error.message}`, true));
+    } else {
+      void importTextFile(file);
+    }
   });
   document.getElementById("go-manage").addEventListener("click", refresh);
   window.addEventListener("storage", (event) => {

@@ -83,3 +83,53 @@ function splitDescription(nameAndDescription) {
     description: nameAndDescription.slice(separator + 1).trim(),
   };
 }
+
+// Serialize the routine to the stable documented JSON shape.
+// Only start, end, name and description: no ids or implementation details.
+export function serializeRoutineJson(activities) {
+  const payload = {
+    activities: activities.map((activity) => ({
+      start: activity.start,
+      end: activity.end,
+      name: activity.name,
+      description: activity.description ?? "",
+    })),
+  };
+  return `${JSON.stringify(payload, null, 2)}\n`;
+}
+
+// Parse previously exported JSON into { activities, errors }.
+// Accepts { activities: [...] } or a bare [...] list for convenience.
+export function parseRoutineJson(text) {
+  let data;
+  try {
+    data = JSON.parse(text);
+  } catch (error) {
+    return { activities: [], errors: [{ index: null, message: `Arquivo JSON inválido: ${error.message}` }] };
+  }
+  const list = Array.isArray(data) ? data : data?.activities;
+  if (!Array.isArray(list)) {
+    return { activities: [], errors: [{ index: null, message: 'Esperado { "activities": [...] }.' }] };
+  }
+  const activities = [];
+  const errors = [];
+  list.forEach((item, index) => {
+    if (!item || typeof item !== "object" || Array.isArray(item)) {
+      errors.push({ index, message: "Item não é um objeto." });
+      return;
+    }
+    if (typeof item.start !== "string" || typeof item.end !== "string" || typeof item.name !== "string") {
+      errors.push({ index, message: "Atividade precisa de start, end e name como texto." });
+      return;
+    }
+    const description = item.description === undefined || item.description === null ? "" : String(item.description);
+    const draft = { start: item.start, end: item.end, name: item.name, description };
+    const validation = validateActivity(draft);
+    if (!validation.ok) {
+      errors.push({ index, message: validation.error });
+      return;
+    }
+    activities.push({ start: draft.start, end: draft.end, name: draft.name.trim(), description: description.trim() });
+  });
+  return { activities, errors };
+}

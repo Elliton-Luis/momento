@@ -63,13 +63,15 @@
         </div>
       </form>
 
-      <section class="transfer" aria-label="Importar rotina">
-        <h2 class="form-title">Importar rotina</h2>
-        <p class="transfer-hint">A partir de um arquivo Markdown ou TXT, como o exemplo documentado no README.</p>
+      <section class="transfer" aria-label="Importar e exportar rotina">
+        <h2 class="form-title">Importar / Exportar</h2>
+        <p class="transfer-hint">Markdown ou TXT seguem o formato documentado no README. JSON usa o formato exportado pelo próprio aplicativo.</p>
         <div class="transfer-actions">
           <button id="import-text" class="ghost-button" type="button">Importar Markdown/TXT</button>
+          <button id="import-json" class="ghost-button" type="button">Importar JSON</button>
+          <button id="export-json" class="ghost-button" type="button">Exportar JSON</button>
         </div>
-        <input id="import-file" type="file" accept=".md,.markdown,.txt,text/plain" hidden />
+        <input id="import-file" type="file" accept=".md,.markdown,.txt,.json,text/plain,application/json" hidden />
         <p id="transfer-message" class="transfer-message" role="status" hidden></p>
       </section>
     </section>
